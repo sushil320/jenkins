@@ -1,5 +1,5 @@
 pipeline {
-    agent any 
+    agent none 
     
     parameters {
         string defaultValue: 'main', name: 'BRANCH', trim: true
@@ -11,6 +11,9 @@ pipeline {
 
     stages{
         stage('BUILD') {
+            
+            agent { label: 'slave1' }
+            
             steps{
                  sh '''
                     sleep 5
@@ -20,6 +23,9 @@ pipeline {
         }
 
         stage('TEST') {
+            
+            agent { label: 'slave2' }
+            
             steps {
                 sh '''
                     sleep 6
@@ -29,6 +35,9 @@ pipeline {
         }
 
         stage('DEPLOY') {
+            
+             agent { label: 'master' }
+            
             steps{
                 sh '''
                     sleep 5
