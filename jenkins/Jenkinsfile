@@ -1,5 +1,5 @@
-pipeline {
-    agent any
+peline {
+    agent any 
     
     parameters {
         string defaultValue: 'main', name: 'BRANCH', trim: true
@@ -11,9 +11,6 @@ pipeline {
 
     stages{
         stage('BUILD') {
-            
-            agent { label: 'slave1' }
-            
             steps{
                  sh '''
                     sleep 5
@@ -23,9 +20,6 @@ pipeline {
         }
 
         stage('TEST') {
-            
-            agent { label: 'slave2' }
-            
             steps {
                 sh '''
                     sleep 6
@@ -36,9 +30,47 @@ pipeline {
 
         stage('DEPLOY') {
             steps{
-                
-                agent { label: 'master' }
-                
+                sh '''
+                    sleep 5
+                    echo "This is a DEPLOY stage $BRANCH_NAME"
+                '''
+            }
+        }
+    }
+}
+
+peline {
+    agent any 
+    
+    parameters {
+        string defaultValue: 'main', name: 'BRANCH', trim: true
+    }
+
+    environment {
+        BRANCH_NAME = "${BRANCH}"
+    }
+
+    stages{
+        stage('BUILD') {
+            steps{
+                 sh '''
+                    sleep 5
+                    echo "This is a BUILD stage $BRANCH_NAME"
+                '''
+            }
+        }
+
+        stage('TEST') {
+            steps {
+                sh '''
+                    sleep 6
+                    echo "This is a TEST stage $BRANCH_NAME"
+                '''
+            }
+        }
+
+        stage('DEPLOY') {
+            steps{
                 sh '''
                     sleep 5
                     echo "This is a DEPLOY stage $BRANCH_NAME"
