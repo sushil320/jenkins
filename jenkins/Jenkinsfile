@@ -1,11 +1,9 @@
 pipeline {
-    agent none 
+    agent any 
         stages{
         stage('BUILD') {
             
-            agent { label: 'slave1' }
-            
-            steps{
+                 steps{
                  sh '''
                     sleep 5
                     echo "This is a BUILD stage $BRANCH_NAME"
@@ -15,8 +13,7 @@ pipeline {
 
         stage('TEST') {
             
-            agent { label: 'slave2' }
-            
+           
             steps {
                 sh '''
                     sleep 6
@@ -26,9 +23,7 @@ pipeline {
         }
 
         stage('DEPLOY') {
-            
-             agent { label: 'master' }
-            
+                        
             steps{
                 sh '''
                     sleep 5
