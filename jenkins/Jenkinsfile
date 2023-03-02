@@ -12,6 +12,17 @@ pipeline {
                 '''
             }
         }
+        stage('BUILD2') {
+            
+            agent { label 'master' }
+            
+            steps{
+                 sh '''
+                    sleep 5
+                    echo "This is a BUILD stage $BRANCH_NAME"
+                '''
+            }
+        }
 
         stage('TEST') {
             
@@ -21,6 +32,17 @@ pipeline {
                 sh '''
                     sleep 6
                     echo "This is a TEST stage $BRANCH_NAME"
+                '''
+            }
+        }
+        stage('Test2') {
+            
+            agent { label 'slave1' }
+            
+            steps{
+                 sh '''
+                    sleep 5
+                    echo "This is a BUILD stage $BRANCH_NAME"
                 '''
             }
         }
